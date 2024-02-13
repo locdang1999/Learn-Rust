@@ -6,4 +6,5 @@
 ### 2 VsCode: ./file-name
 ### 3 New package rust: cargo new namepackage
 ### 4 Run package rust: cd namepackage --> cargo run
-### 5 Update library in package rust: add library at cargo.toml --> cargo build
+### 5 Check package rust: cd namepackage --> cargo check
+### 6 Update library in package rust: add library at cargo.toml --> cargo build
