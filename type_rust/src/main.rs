@@ -14,5 +14,22 @@ fn main() {
     println!("x: {} so với y: {}", x, y);
     println!("{x} < {y}");
 
-    /* DATA TYPES: KIỂU DỮ LIỆU */
+    /* DATA TYPES: KIỂU DỮ LIỆU
+       Có 2 kiểu dữ liệu
+        * Scalar: lưu trữ đơn giá trị như Integer, Float, Char, Boolean, String
+        * Compound: lưu trừ đa giá trị như Array, Tuple
+    */
+    // *** Scalar
+    let test_string = "Rust learn";
+    let test_boolean = true;
+    let test_integer = 2024;
+    let test_char = 'b';
+    println!("{test_string}, {test_boolean}, {test_integer}, {test_char}");
+    // *** Hằng số: const
+    const PI: f32 = 3.14;
+    println!("{PI}");
+    // *** Compound
+    // * Array: Tất cả các phần từ phải cùng kiểu dữ liệu
+    let test_array = [1, 2, 3, 4];
+    println!("{}", test_array[2]);
 }
