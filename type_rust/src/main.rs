@@ -56,4 +56,23 @@ fn main() {
     // case ko thể convert
     let intg: u32 = 65;
     // let change_char = intg as char; // only `u8` can be cast as `char`, not `u32` invalid cast
+    println!("convert: {intg}");
+
+    // *** Operators: Toán tử
+    /*
+     * Hỗ trợ toán tử có bản: +, -, *, /, ... cho các phép toán số học
+     * Các toán tử so sánh: ==, !=, >, <, ...
+     * Các toán tử logic: &&, ||, !
+     * Ngoài ra còn nhiều toán tử khác
+     */
+    let book_blue = 10;
+    let mut book_red = 30;
+
+    let add = book_blue + book_red;
+    let sub = book_blue - book_red;
+    book_red += 1;
+    println!("Book Red value: {book_red}");
+    println!("Add: {add}");
+    println!("Sub: {sub}");
+    println!("So sánh Red vs Blue: {}", book_red > book_blue);
 }
