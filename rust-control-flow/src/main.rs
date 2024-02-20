@@ -12,9 +12,28 @@ fn main() {
         println!("Average student (Học sinh trung bình)")
     }
 
-    if !y{
+    if !y {
         println!("Invalid")
-    }else {
+    } else {
         println!("Valid")
+    }
+
+    // *** LOOP
+    /*
+        * Vòng lập vô hạn, chỉ dừng khi gặp từ khóa "break"
+        * Dùng khi không biết trước số lần lập cần thiết
+     */
+    let mut num = 10;
+    loop {
+        println!("Loop in rust");
+        break;
+    }
+    loop {
+        if num <= 0 {
+            break;
+        }       
+        println!("Number is: {num}");
+        num -= 1;
+        // println!("{}", --num); // Rust ko sử dụng cú pháp ++, --
     }
 }
