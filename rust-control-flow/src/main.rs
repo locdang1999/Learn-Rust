@@ -36,4 +36,15 @@ fn main() {
         num -= 1;
         // println!("{}", --num); // Rust ko sử dụng cú pháp ++, --
     }
+
+    // *** LOOP
+    /*
+        * Lặp cho đến khi gặp đk sai
+     */
+    let mut count = 5;
+    while  count > 0 {
+        println!("while - number: {count}");
+        count -= 1;
+    }
+
 }
