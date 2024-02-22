@@ -35,7 +35,7 @@ fn main() {
     // * Array: Tất cả các phần từ phải cùng kiểu dữ liệu
     let test_array = [1, 2, 3, 4];
     println!("{}", test_array[2]);
-
+    println!("Cú pháp in ra tất cả mảng {:?}", test_array[2]); //Cú pháp in ra tất cả mảng {:?}
     // *** Type-Casting: Ép kiểu dữ liệu -> Dùng từ khóa "as" và sẽ có các trường hợp ko thể ép kiểu -> chuyển từ type này thành type khác (convert type)
     // định nghĩa kiểu dữ liệu trước tiếp cho biến
     let qt = 100u16; // u16: integer 16bit --> nhưng chỉ tính số dương
