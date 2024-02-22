@@ -85,4 +85,38 @@ fn main() {
         *itm += 1;
     }
     println!("For - New array: {:?}", arr_new);
+
+    // *** BREAK  &  CONTINUE
+    /*
+     * Beark: Dùng để thoát khỏi vòng lặp ngay lặp tức
+     * Continue: Dùng để bỏ qua lần lặp hiện tại và chuyển tới lần lặp tiếp theo
+     * Dùng cho các vòng lặp: loop, for, while
+     */
+    for itm in 1..10 {
+        if itm == 5 {
+            break;
+        }
+        println!("break in: {itm}")
+    }
+
+    for itm in 1..10 {
+        if itm == 7 {
+            continue;
+        }
+        println!("Continue in: {itm}")
+    }
+
+    let mut i = 1;
+    while i <= 5 {
+        let mut j = 1;
+        while j <= 4 {
+            print!("*");
+            if j == 4 {              
+                break;
+            }
+            j += 1;
+        }
+        println!("");
+        i += 1;
+    }
 }
