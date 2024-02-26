@@ -55,13 +55,19 @@ fn find_max(arr: &[i32]) -> i32 {
     }
     max
 }
+// Adding a _ to the beginning of the variable name (which is the standard way of telling the compiler 'Yes, this is unused on purpose')
+fn _print_text(){
+    let test = "test";
+    println!("{test}")
+}
 
-// fn rem_first_and_last(value: &str) -> &str {
-//     let mut chars = value.chars();
-//     chars.next();
-//     chars.next_back();
-//     chars.as_str()
-// }
+#[allow(dead_code)] // là một thuộc tính vô hiệu hóa lint `dead_code`
+fn rem_first_and_last(value: &str) -> &str {
+    let mut chars = value.chars();
+    chars.next();
+    chars.next_back();
+    chars.as_str()
+}
 
 fn rem_last(value: &str) -> &str {
     let mut chars = value.chars();
@@ -83,7 +89,7 @@ fn find_evennum(arr: &[i32]) {
         }
     }
     println!("Arrays: Cách 1: {:?}", even);
-    println!("Arrays: Cách 2: {}", rem_last(text_even.trim()));
+    println!("Arrays: Cách 2: [{}]", rem_last(text_even.trim()));
 }
 
 fn find_even_vec(vec_arr: &[i32]){
