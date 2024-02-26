@@ -56,12 +56,14 @@ fn find_max(arr: &[i32]) -> i32 {
     max
 }
 // Adding a _ to the beginning of the variable name (which is the standard way of telling the compiler 'Yes, this is unused on purpose')
+// https://doc.rust-lang.org/beta/nightly-rustc/rustc_lint_defs/builtin/static.UNUSED_VARIABLES.html#:~:text=Explanation,an%20underscore%20such%20as%20_x%20.
 fn _print_text(){
     let test = "test";
     println!("{test}")
 }
 
 #[allow(dead_code)] // là một thuộc tính vô hiệu hóa lint `dead_code`
+// https://doc.rust-lang.org/rust-by-example/attribute/unused.html
 fn rem_first_and_last(value: &str) -> &str {
     let mut chars = value.chars();
     chars.next();
