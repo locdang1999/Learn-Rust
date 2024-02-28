@@ -65,11 +65,30 @@ fn main() {
         arr.iter().position(|&idx| idx % 3 == 0)
     );
 
-    arr.iter().enumerate()
+    arr.iter()
+        .enumerate()
         .for_each(|(idx, itm)| println!("Index arr: {} and Value arr: {}", idx, itm));
 
     // Exercise 1: Tìm số lớn nhất trong mảng find_max
+    /*
+     * numbers là mảng chứa các số nguyên.
+     * numbers.iter() tạo một iterator cho mảng numbers.
+     * .max() trả về số lớn nhất trong iterator.
+     * .unwrap_or(&0) trả về giá trị của số lớn nhất, hoặc 0 nếu mảng là rỗng.
+     * "*": được sử dụng để giải tham chiếu một con trỏ, biến đổi nó thành giá trị thực tế.
+     */
+    println!(
+        "Max number in arrays: {:?}, value sau khi biến đổi nhờ '*': {}",
+        arr.iter().max(),
+        *arr.iter().max().unwrap_or(&0)
+    );
     // Exercise 2: Find all even number in arrays find_evens
+    let _even_numbers: Vec<i32> = vec_x.iter().filter(|&&idx| idx % 2 == 0).cloned().collect();
+    let even_number_arr: Vec<i32> = arr.iter().filter(|&&idx| idx % 2 == 0).cloned().collect();
+    println!(
+        "List even number in arrays: {:?}",
+        even_number_arr
+    );
 }
 
 fn print_hello() {
