@@ -12,4 +12,11 @@ fn main() {
      * + Phạm vi ở đây có nghĩa là 1 block code được định nghĩa trong {}
      * + Biến định nghĩa trong 1 phạm vi là hợp lệ, ngoài phạm vi {} thì biến không hợp lệ (vùng nhớ lưu giá trị của biển đó đã tự động xóa)
      */
+
+    {
+        let name = String:: from_utf8("Xin chào Việt Nam".into());
+        println!("In scope: {:?}", name);
+    }
+    // Giải phóng bộ nhớ cho biến "name" -> Giá trị của "name" không còn tồn tại
+    // println!("Out scope: {:?}", name); // cannot find value "name" in this scope
 }
