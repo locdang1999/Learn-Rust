@@ -19,4 +19,14 @@ fn main() {
     }
     // Giải phóng bộ nhớ cho biến "name" -> Giá trị của "name" không còn tồn tại
     // println!("Out scope: {:?}", name); // cannot find value "name" in this scope
+
+    // Quy tắc 1: `fruit1` đang sở hữu 1 giá trị có kiểu String
+    let fruit1 = String:: from("Banana");
+
+    // Quy tắc 2: Chỉ có 1 Owner tại 1 thời điểm -> Tính sở hữu (ownership chuyển qua từ `fruit1` -> `fruit2`)
+    let fruit2 = fruit1;
+
+    // Quy tắc 3: dropped => Khi đó không thể in ra `fruit1` vì `fruit2` đã mất quyền sở hữu => Giá trị của `fruit1` bị xóa
+    // println!("fruit1 = {}", fruit1); // borrow of moved value: `fruit1`
+    println!("fruit2 = {}", fruit2);
 }
