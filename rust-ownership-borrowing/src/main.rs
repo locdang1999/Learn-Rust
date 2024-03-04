@@ -39,6 +39,12 @@ fn main() {
     let fruit3 = String::from("Apple");
     print_ownership(fruit3);// Ownership(Tính sở hữu) của "fruit3" được chuyển qua "str" của function print_ownership
     // println!("fruit = {}", fruit3); // "fruit3" bị dropped
+
+    // *** Reference and Borrowing: (Tham chiếu)
+    /*
+     * Trỏ tới giá trị mà không sở hữu giá trị đó (mượn)
+     * Tránh lỗi do nguyên tắc Ownership
+     */
 }
 
 fn print_ownership(str: String) {
