@@ -37,16 +37,30 @@ fn main() {
 
     // Ownership with function
     let fruit3 = String::from("Apple");
-    print_ownership(fruit3);// Ownership(Tính sở hữu) của "fruit3" được chuyển qua "str" của function print_ownership
+    print_ownership(fruit3); // Ownership(Tính sở hữu) của "fruit3" được chuyển qua "str" của function print_ownership
     // println!("fruit = {}", fruit3); // "fruit3" bị dropped
-
+    
     // *** Reference and Borrowing: (Tham chiếu)
     /*
      * Trỏ tới giá trị mà không sở hữu giá trị đó (mượn)
      * Tránh lỗi do nguyên tắc Ownership
+     * Tính mượn -> sử dụng tính chất Reference (con trỏ) => tránh vi phạm Ownership
+     * Tính đọc -> "&" (ampersand) -> share Reference
+     * Tính thay đổi (write) -> mượn nhưng có sự cho phép của Owner để thay đổi thông tin -> Mutable Reference
      */
+    let fruit4 = String::from("Orange");
+    // Cách 1: clone
+    let fruit5 = fruit4.clone();
+    print_ownership(fruit4.clone()); // "clone()" tạo ra 1 địa chỉ mới so với thằng `fruit4` (fruit4.clone() != fruit4)
+    println!("Owner fruit5: {}", fruit5);
+    // Cách 2: Sử dụng Reference (con trỏ): "&" -> mượn => Tránh vi phạm ownership
+    print_reference(&fruit4);
 }
 
 fn print_ownership(str: String) {
     println!("print_ownership = {}", str);
+}
+
+fn print_reference(str: &String) {
+    println!("print_reference = {}", str);
 }
