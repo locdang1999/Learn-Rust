@@ -39,7 +39,7 @@ fn main() {
     let fruit3 = String::from("Apple");
     print_ownership(fruit3); // Ownership(Tính sở hữu) của "fruit3" được chuyển qua "str" của function print_ownership
     // println!("fruit = {}", fruit3); // "fruit3" bị dropped
-    
+
     // *** Reference and Borrowing: (Tham chiếu)
     /*
      * Trỏ tới giá trị mà không sở hữu giá trị đó (mượn)
@@ -55,6 +55,21 @@ fn main() {
     println!("Owner fruit5: {}", fruit5);
     // Cách 2: Sử dụng Reference (con trỏ): "&" -> mượn => Tránh vi phạm ownership
     print_reference(&fruit4);
+    let mut fruit6 = String::from("Cherry");
+    print_mut_reference(&mut fruit6);
+
+    let mut s1 = String::from("S1");
+    let s2 = &s1;
+    let s3 = &s1;
+    println!("s1: {} - s2: {} - s3: {}", s1, s2, s3);
+    let s4 = &mut s1;
+    println!("s4: {:?}", s4); // s1 phải sửa thành mut. Nhưng vì s2, s3 mượn (&) từ s1 và được sử dụng sau khi thay s4 mượn và thay đổi (&mut) s1 nên bị lỗi
+    // println!("s1: {} - s2: {} - s3: {}", s1, s2, s3); // => Không sử dụng các biến mượn từ s1 sau khi thay đổi s1, hoặc loại bỏ các biến mượn từ s1 trước khi s1 bị thay đổi
+    // let s5 = &mut s1; // Chỉ cho duy nhất 1 biến vừa mượn vừa thay đổi và chủ sở hữu ban đầu đã bị mượn và thay đổi rồi thì cũng không thể sử dụng "và" cho mượn "và" thay đổi được nữa
+    // println!("s4: {:?}", s4);// lỗi khi gán với s5
+
+    // Dangling Pointer
+    // let refer_to_nothing = dangle();
 }
 
 fn print_ownership(str: String) {
@@ -64,3 +79,15 @@ fn print_ownership(str: String) {
 fn print_reference(str: &String) {
     println!("print_reference = {}", str);
 }
+
+fn print_mut_reference(str: &mut String) {
+    println!("Before mutable reference = {}", str);
+    str.push_str(" Lemon");
+    println!("After Mutable referenc = {}", str);
+}
+
+// fn dangle() -> &String {
+//     let s = String::from("value");
+//     // trả về 1 tham chiếu của chuỗi
+//     &s // lỗi null pointer vì biến "s" bị drop khi kết thúc scope lúc này sẽ ko lấy được giá trị
+// }
