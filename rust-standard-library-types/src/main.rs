@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 fn main() {
     println!("^_^ Rust Standard Library Types ^_^");
     // Doc: https://doc.rust-lang.org/std/
@@ -99,4 +101,28 @@ fn main() {
         *numb += 1;
     }
     println!("res of numbers3: {:?}", numbers3);
+
+    // *** HashMap
+    /*
+     * - Cấu trúc dữ liệu lưu trữ khóa-giá trị (key-value)
+     * - Khởi tạo:
+     *  + Import HashMap
+     *  + Định nghĩa Instance bằng hàm new()
+     */
+
+    let mut user = HashMap::new();
+    user.insert("username", "Alice");
+    user.insert("nickname", "AIC");
+    println!("User: {:?}", user);
+    println!("User: get username {:?}", user.get("username"));
+
+    for item in user.iter() {
+        println!("Key: {}, Value: {}", item.0, item.1);
+    }
+
+    for (key, value) in user.iter() {
+        println!("Key: {}, Value: {}", key, value);
+    }
+    user.insert("username", "Jack");
+    println!("User: {:?}", user);
 }
