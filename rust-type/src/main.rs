@@ -1,5 +1,5 @@
 fn main() {
-    println!("Learn Type in Rust");
+    println!("Learn Type Basic in Rust");
 
     /* VARIABLES: BIẾN */
     // Định nghĩa biến x = 5
