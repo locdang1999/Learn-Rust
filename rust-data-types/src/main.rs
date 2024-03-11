@@ -69,9 +69,30 @@ fn main() {
     }
 
     // *** Struct
-    
+    /* Định nghĩa:
+     *  - Kiểu dữ liệu tổng hợp
+     *  - Cấu trúc dữ liệu với nhiều thành phần có các kiểu dữ liệu khác nhau
+     * Đặc điểm
+     *  - Tổ chức dữ liệu
+     *  - Kiểu dữ liệu tùy chỉnh
+     *  - Biểu đạt hành vi (Method Implementation)
+     */
+
+    // Khác nhau giữa kiểu struct và tuple
+    let _student = ("Alice", 10, "C"); // Tuple
+
+    // Sử dụng Struct
+    // Định nghĩa instance
+    let alice = Student {
+        name: String::from("Alice"),
+        age: 24,
+        class: String::from("C"),
+    };
+
+    println!("Alice Age: {}", alice.age);
 }
 
+// *** Enum
 fn match_mood(mood: &Mood) -> i32 {
     let happiness_level = match mood {
         Mood::Happy => 10,
@@ -118,4 +139,12 @@ fn get_number(input: i32) -> Number {
         false => Number::I32(input),
     };
     number
+}
+
+// *** Struct
+
+pub struct Student {
+    pub name: String,
+    pub age: u8,
+    pub class: String,
 }
