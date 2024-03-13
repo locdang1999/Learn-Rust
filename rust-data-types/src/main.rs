@@ -75,7 +75,16 @@ fn main() {
      * Đặc điểm
      *  - Tổ chức dữ liệu
      *  - Kiểu dữ liệu tùy chỉnh
-     *  - Biểu đạt hành vi (Method Implementation)
+     *  - Biểu đạt hành vi (Method Implementation):
+     *   + Sử dụng từ khóa "impl"
+     *   + Mô tả hành vi cho 1 vatah thể (object) nào đó
+     *  - Phân biệt self và Self trong Struct
+     *   + self: Thể hiện cho 1 instance (thực thể) hiện tại của 1 object (như là "this") đối với các ngôn ngữ khác
+     *   + Self: Đại diện cho đối tượng chung (class)
+     *  - Dùng self, &self, &mut self
+     *   + self: Mang tính sở hữu (Ownership)
+     *   + &self: Mang tính mượn (Reference)
+     *   + &mut self: Mang tính thay đổi (Mutable Reference)
      */
 
     // Khác nhau giữa kiểu struct và tuple
@@ -99,7 +108,22 @@ fn main() {
     };
 
     jack.class = String::from("A");
-    println!("Alice Class: {}", jack.class);
+    println!("Jack Class: {}", jack.class);
+
+    println!("Name of Student: {}", jack.get_name());
+    println!("Name of Student: {}", alice.get_name());
+
+    let jimmy = Student::new();
+    println!("Jack Class: {:?}", jimmy);
+
+    println!("Class of Student 1: {}", alice.get_class());
+    // println!("Alice Age: {:?}", alice); // Lúc này 'alice' sẽ không còn tồn tại vì đã reference (cho mượn) 'alice.get_class()'
+    println!("Name of Student 2: {}", jimmy.get_name2());
+    println!("Alice: {:?}", jimmy); // Vấn sử dụng 'jimmy' được vì chỉ shared reference
+
+    jack.set_class(String::from("B"));
+    println!("Jack Class: {}", jack.class);
+    println!("Jack: {:?}", jack);
 }
 
 // *** Enum
@@ -152,9 +176,44 @@ fn get_number(input: i32) -> Number {
 }
 
 // *** Struct
-
+#[derive(Debug)]
 pub struct Student {
     pub name: String,
     pub age: u8,
     pub class: String,
+}
+
+// Mô tả hành vi cho Stuct Student
+impl Student {
+    // Constructor - hàm khởi tạo
+    pub fn new() -> Self {
+        Student {
+            name: String::from("Jimmy"),
+            age: 24,
+            class: String::from("C"),
+        }
+    }
+
+    // Sử dụng self (Ownership)
+    pub fn get_class(self) -> String {
+        // println!("Test {:?}", self); Muốn log "&self" phải thêm "#[derive(Debug)]" ở Struct
+        self.class // hoặc dùng clone() or to_owned()
+    }
+
+    // Sử dụng &self (shared Reference)
+    pub fn get_name(&self) -> String {
+        // println!("Test {:?}", &self); Muốn log "&self" phải thêm "#[derive(Debug)]" ở Struct
+        self.name.to_string() // hoặc dùng clone() or to_owned()
+    }
+
+    // Sử dụng &self (shared Reference)
+    pub fn get_name2(&self) -> &String {
+        // println!("Test {:?}", &self); Muốn log "&self" phải thêm "#[derive(Debug)]" ở Struct
+        &self.name // hoặc dùng clone() or to_owned()
+    }
+
+    // Sử dụng "&mut self" (Mutable Reference)
+    pub fn set_class(&mut self, class: String) {
+        self.class = class;
+    }
 }
