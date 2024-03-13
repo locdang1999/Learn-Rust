@@ -90,6 +90,16 @@ fn main() {
     };
 
     println!("Alice Age: {}", alice.age);
+
+    // Cũng sử dụng "mut" để thay đổi giá trị của "Struct"
+    let mut jack = Student {
+        name: String::from("Jack"),
+        age: 24,
+        class: String::from("C"),
+    };
+
+    jack.class = String::from("A");
+    println!("Alice Class: {}", jack.class);
 }
 
 // *** Enum

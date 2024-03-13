@@ -74,7 +74,10 @@ fn main() {
     let mut colors_itmut: Vec<&str> = vec!["Red", "Yellow", "Green"];
     for color in colors_itmut.iter_mut() {
         println!("iter: {}", color);
-        *color = "Black";
+        // *color = "Black";
+        if *color == String::from("Red") {
+            *color = "Black";
+        }
     }
 
     // Collection vẫn còn "tồn tại" sau khi dùng và có thể thay đổi giá trị trong khi dùng iter_mut();
