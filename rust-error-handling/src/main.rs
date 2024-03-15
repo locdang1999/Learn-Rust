@@ -48,4 +48,32 @@ fn main() {
         },
     };
     println!("Data file: {:?}", data_file);
+
+    // *** Unwrap and Expect
+    /*
+     * wnwrap() và expect() có thể hoạt động trên kiểu Option và Result
+     * Lấy giá trị bên trong Option or Result
+     */
+
+    let name_st = get_user("alice"); //alice
+    println!("Name student: {:?}", name_st);
+    match name_st {
+        Some(value) => println!("Handle error one more: {:?}", value),
+        None => panic!("Không có giá trị"),
+    }
+
+    // Unwrap
+    let name_st_unwrap = get_user("Jix").unwrap(); //Jix
+    println!("Name student: {:?}", name_st_unwrap);
+
+    // Expect
+    let name_st_expect = get_user("").expect("Mong chờ input"); //JKay
+    println!("Name student: {:?}", name_st_expect);
+}
+
+fn get_user(username: &str) -> Option<&str> {
+    if username.is_empty() {
+        return None;
+    }
+    return Some(username);
 }
