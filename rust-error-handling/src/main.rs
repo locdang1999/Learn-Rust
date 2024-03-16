@@ -1,5 +1,7 @@
-use std::fs::File;
-
+use std::{
+    fs::File,
+    io::{Error, Read},
+};
 fn main() {
     println!("^_^ Rust Error Handling ^_^");
 
@@ -67,8 +69,26 @@ fn main() {
     println!("Name student: {:?}", name_st_unwrap);
 
     // Expect
-    let name_st_expect = get_user("").expect("Mong chờ input"); //JKay
+    let name_st_expect = get_user("JKay").expect("Mong chờ input"); //JKay
     println!("Name student: {:?}", name_st_expect);
+
+    // *** Custom Error
+    /*
+     * Question Mark(?)
+     * - Toán tử "?" dùng để unwrap cho Result
+     * - Nếu có giá trị -> unwrap và trả về giá trị
+     * - Nếu có lỗi -> trả về lỗi ngay lập tức
+     * - Giống với unwrap() và expect() method
+     */
+
+    let file_path = "data.txt"; // data.txt
+    match read_file_contents(file_path) {
+        Ok(contents) => println!(" File contents: {}", contents),
+        Err(err) => eprintln!("Error reading file: {}", err),
+    }
+
+    let content = read_file_contents_error_custom(file_path);
+    println!("Content after error custom: {:?}", content);
 }
 
 fn get_user(username: &str) -> Option<&str> {
@@ -76,4 +96,35 @@ fn get_user(username: &str) -> Option<&str> {
         return None;
     }
     return Some(username);
+}
+
+fn read_file_contents(path: &str) -> Result<String, Error> {
+    // Sử dụng toán tử ? để unwrap lấy giá trị
+    // Vì hàm open trả về Result
+    let mut file = File::open(path)?;
+    let mut contents = String::new();
+
+    //Sử dụng toán tử ? để unwrap lấy giá trị
+    file.read_to_string(&mut contents)?;
+
+    Ok(contents)
+}
+
+fn read_file_contents_error_custom(path: &str) -> Result<String, CustomError> {
+    // Sử dụng toán tử ? để unwrap lấy giá trị
+    // Vì hàm open trả về Result
+    let mut file = File::open(path).map_err(|_| CustomError::FileOpenError)?;
+    let mut contents = String::new();
+
+    //Sử dụng toán tử ? để unwrap lấy giá trị
+    file.read_to_string(&mut contents)
+        .map_err(|_| CustomError::FileReadError)?;
+
+    Ok(contents)
+}
+
+#[derive(Debug)]
+enum CustomError {
+    FileOpenError,
+    FileReadError,
 }
