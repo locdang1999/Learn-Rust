@@ -6,12 +6,41 @@ fn main() {
      * Trait là một cách để định nghĩa một tập hợp các đặc tính (hành vi) được chia sẻ giữa các kiểu dữ liệu khác nhau
      *    + Chức năng như 1 Interface ở 1 số ngôn ngữ khác
      * Implement trait: bằng cách sử dụng từ khóa trait và liệt kê các phương thức và tính chất của 1 trait đó
+     *
+     * Trait có thể là đầu vào của hàm
+     * - Trait có thể là đầu vào của hàm -> Đầu vào này là 1 thực thể của 1 object mà có implement trait Vehicle
+     * - Cần có từ khóa "impl" khi pass trait là đầu vào của hàm
      */
 
     let vios = Car {
         category: "Sedan".to_string(),
     };
     let vios_speed = vios.speed();
+
+    print_vehicle_info(&vios);
+
+    let bike = Bicycle {
+        category: "moto".to_string(),
+    };
+    // print_vehicle_info(&bike); // Bị lỗi vì Vehicle chỉ biểu diễn cho thằng nào implement nó
+
+    // *** Trait Bound: thường được sử dụng cho generic function
+
+    check_speed(&vios);
+
+    // *** Returning Traits: Bởi vì Rust không biết chính xác khi trả về trait -> sử dụng Box<dyn Trait> => Lưu vào Heap
+    let vios2 = get_vehicle(&"Car".to_string());
+    // *** Traits Combos: Thêm cú pháp dấu "+" => 1 object có thể "constraint" nhiều trait khác nhau (nghĩa là implement nhiều đặc tính khác nhau)
+    print_insurable_info_2(&vios);
+    print_insurable_info(&vios);
+
+    // *** Super traits
+    /*
+     * Là 1 trait phụ thuộc vào những trait khác
+     * Định nghĩa 1 trait Displayable có supertrait là Vehicle
+     */
+
+     display_dis(&vios);
 }
 
 pub struct Car {
@@ -48,4 +77,111 @@ impl Vehicle for Car {
     fn speed(&self) -> u32 {
         100
     }
+}
+
+impl Vehicle for Motorbike {
+    fn get_category(&self) -> String {
+        self.category.clone()
+    }
+
+    fn speed(&self) -> u32 {
+        70
+    }
+}
+
+impl Insurable for Car {
+    fn insurable_name(&self) -> String {
+        "Toyota".to_string()
+    }
+}
+
+// impl Vehicle
+// có 2 object là car và motorbike
+// tương đương khi sử dụng thẳng object Car
+fn print_vehicle_info(vehicle: &impl Vehicle) {
+    println!(
+        "Category: {}, Speed: {}",
+        vehicle.get_category(),
+        vehicle.speed()
+    );
+}
+// <=> // tương đương khi sử dụng thẳng object Car
+// fn print_vehicle_info_car(vehicle: &Car) {
+//     println!(
+//         "Category: {}, Speed: {}",
+//         vehicle.get_category(),
+//         vehicle.speed()
+//     );
+// }
+
+pub struct Bicycle {
+    category: String,
+}
+
+// Trait Bound
+fn check_speed<T: Vehicle>(vehicle: &T) {
+    if vehicle.speed() > 80 {
+        println!("{} is fast!", vehicle.speed());
+    } else {
+        println!("{} is slow!", vehicle.speed());
+    }
+}
+// check_speed <=> check_speed2 nhưng check_speed sẽ được sử dụng nhiều hơn
+fn check_speed2(vehicle: &impl Vehicle) {
+    if vehicle.speed() > 80 {
+        println!("{} is fast!", vehicle.speed());
+    } else {
+        println!("{} is slow!", vehicle.speed());
+    }
+}
+
+// Return Trait
+fn get_vehicle(vehicle_type: &str) -> Box<dyn Vehicle> {
+    match vehicle_type {
+        "Car" => Box::new(Car {
+            category: String::from("Car"),
+        }),
+        _ => Box::new(Motorbike {
+            category: String::from("Motobike"),
+        }),
+    }
+}
+
+// Trait combos
+trait Insurable {
+    fn insurable_name(&self) -> String;
+}
+
+// trait là parameter
+fn print_insurable_info(item: &(impl Vehicle + Insurable)) {
+    println!(
+        "{} is insured by {}",
+        item.get_category(),
+        item.insurable_name()
+    );
+}
+
+fn print_insurable_info_2<T: Vehicle + Insurable>(item: &T) {
+    println!(
+        "{} is insured by {}",
+        item.get_category(),
+        item.insurable_name()
+    );
+}
+
+// *** Super traits
+trait Displayable: Vehicle {
+    fn display_info(&self) {
+        println!(
+            "vehicle Category: {}, Speed: {} km/h",
+            self.get_category(),
+            self.speed()
+        );
+    }
+}
+
+impl Displayable for Car {}
+
+fn display_dis<T: Displayable>(item: &T) {
+    item.display_info();
 }
