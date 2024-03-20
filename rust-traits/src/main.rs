@@ -1,3 +1,5 @@
+use std::f64::consts::PI;
+
 fn main() {
     println!("^_^ Rust Traits ^_^");
 
@@ -39,8 +41,24 @@ fn main() {
      * Là 1 trait phụ thuộc vào những trait khác
      * Định nghĩa 1 trait Displayable có supertrait là Vehicle
      */
+    display_dis(&vios);
 
-     display_dis(&vios);
+    // *** Trait Object
+    /*
+     * Trait Object là 1 cách để làm việc với các đối tượng có kiểu trait chung, cho phép tạo ra 1 danh sách đa dạng các đối tượng có cùng kiểu trait
+     * Có 2 dạng sử dụng của Trait Object: Static Dispatch và Dynamic Dispatch
+     */
+    // circle là 1 instance của object Circle
+    let circle = Circle { radius: 10.0 };
+
+    let rec = Rectangle {
+        width: 2.0,
+        height: 5.0,
+    };
+
+    // sử dụng trait object -> dynamic trait object
+    let vec: Vec<Box<dyn Drawable>> = vec![Box::new(circle), Box::new(rec)];
+
 }
 
 pub struct Car {
@@ -184,4 +202,39 @@ impl Displayable for Car {}
 
 fn display_dis<T: Displayable>(item: &T) {
     item.display_info();
+}
+
+// *** Trait Object
+struct Circle {
+    radius: f64,
+}
+
+struct Rectangle {
+    width: f64,
+    height: f64,
+}
+
+trait  Drawable {
+    fn draw(&self);
+    fn area(&self) -> f64;
+}
+
+impl  Drawable for Circle {
+    fn draw(&self) {
+        println!(" Drawing a circle");
+    }
+
+    fn area(&self) -> f64 {
+        PI * self.radius * self.radius
+    }
+}
+
+impl Drawable for Rectangle {
+    fn draw(&self) {
+        println!(" Drawing a rectangle");
+    }
+
+    fn area(&self) -> f64 {
+        self.width * self.height
+    }
 }
