@@ -1,4 +1,4 @@
-use std::f64::consts::PI;
+use std::{clone, f64::consts::PI};
 
 fn main() {
     println!("^_^ Rust Traits ^_^");
@@ -57,8 +57,25 @@ fn main() {
     };
 
     // sử dụng trait object -> dynamic trait object
-    let vec: Vec<Box<dyn Drawable>> = vec![Box::new(circle), Box::new(rec)];
+    let vec: Vec<Box<dyn Drawable>> = vec![Box::new(circle.clone()), Box::new(rec.clone())];
 
+    // *** Static-Dispatch
+    /*
+     * - Dispatch nghĩa là hàm phương thức(method) có sử dụng liên quan tới trait
+     * - Static Dispatch
+     *  + Xảy ra khi dữ liệu cụ thể của đối tượng được biết trong quá trình biên dịch (nghĩa là kích thước của object sẽ biết trong quá trình biên dịch -> cấp phát bộ nhớ cho object)
+     *  + Việc triển khai phương thức (method call) được xử lý trong quá trình biên dịch dựa trên kiểu dữ liệu cụ thể
+     * - Cách định nghĩa Static Dispatch
+     *  + parameter: sử dụng generic type -> constraint bởi trait
+     *  + parameter là 1 kiểu dữ liệu cụ thể (object) có liên quan tới trait
+     *  + VD: Định nghĩa static dispatch sử dụng trait như 1 parameter
+     */
+    draw_static(&circle);
+    draw_static(&rec);
+
+    // object not implement trait Drawable
+    let tri = Triangle{};
+    // draw_static(&tri); // lỗi vì ko có implement Drawable
 }
 
 pub struct Car {
@@ -205,21 +222,22 @@ fn display_dis<T: Displayable>(item: &T) {
 }
 
 // *** Trait Object
+#[derive(Clone)]
 struct Circle {
     radius: f64,
 }
-
+#[derive(Clone)]
 struct Rectangle {
     width: f64,
     height: f64,
 }
 
-trait  Drawable {
+trait Drawable {
     fn draw(&self);
     fn area(&self) -> f64;
 }
 
-impl  Drawable for Circle {
+impl Drawable for Circle {
     fn draw(&self) {
         println!(" Drawing a circle");
     }
@@ -237,4 +255,18 @@ impl Drawable for Rectangle {
     fn area(&self) -> f64 {
         self.width * self.height
     }
+}
+
+// *** Statis Dispatch
+// T như là 1 trait object được constraint bởi trait Drawble
+// Sử dụng trait bound
+// Sử dụng trait như 1 parameter
+pub struct Triangle {}
+
+fn draw_static<T: Drawable>(shape: &T) {
+    shape.draw();
+}
+//    <=>
+fn draw_static_cir(shape: &Circle) {
+    shape.draw();
 }
