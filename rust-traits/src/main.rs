@@ -1,4 +1,4 @@
-use std::{clone, f64::consts::PI};
+use std::f64::consts::PI;
 
 fn main() {
     println!("^_^ Rust Traits ^_^");
@@ -17,11 +17,11 @@ fn main() {
     let vios = Car {
         category: "Sedan".to_string(),
     };
-    let vios_speed = vios.speed();
+    let _vios_speed = vios.speed();
 
     print_vehicle_info(&vios);
 
-    let bike = Bicycle {
+    let _bike = Bicycle {
         category: "moto".to_string(),
     };
     // print_vehicle_info(&bike); // Bị lỗi vì Vehicle chỉ biểu diễn cho thằng nào implement nó
@@ -31,7 +31,7 @@ fn main() {
     check_speed(&vios);
 
     // *** Returning Traits: Bởi vì Rust không biết chính xác khi trả về trait -> sử dụng Box<dyn Trait> => Lưu vào Heap
-    let vios2 = get_vehicle(&"Car".to_string());
+    let _vios2 = get_vehicle(&"Car".to_string());
     // *** Traits Combos: Thêm cú pháp dấu "+" => 1 object có thể "constraint" nhiều trait khác nhau (nghĩa là implement nhiều đặc tính khác nhau)
     print_insurable_info_2(&vios);
     print_insurable_info(&vios);
@@ -57,7 +57,7 @@ fn main() {
     };
 
     // sử dụng trait object -> dynamic trait object
-    let vec: Vec<Box<dyn Drawable>> = vec![Box::new(circle.clone()), Box::new(rec.clone())];
+    let _vec: Vec<Box<dyn Drawable>> = vec![Box::new(circle.clone()), Box::new(rec.clone())];
 
     // *** Static-Dispatch
     /*
@@ -74,8 +74,23 @@ fn main() {
     draw_static(&rec);
 
     // object not implement trait Drawable
-    let tri = Triangle{};
+    let _tri = Triangle {};
     // draw_static(&tri); // lỗi vì ko có implement Drawable
+
+    // *** Dynamic-Dispatch
+    /*
+     * Xảy ra khi dữ liệu cụ thể của Object không được biết trong quá trình biên dịch và được dịch bởi runtime(trong quá trình chạy logic)
+     * Con trỏ (pointer) của trait (trait Object)
+     * Cách định nghĩa Dynamic Dispatch: thêm dyn để chỉ rõ đây là trait object sử dụng dưới dang dynamic dispatch 
+     */
+
+     let shapes: Vec<&dyn Drawable> = vec![&circle, &rec];
+     draw_dynamic(&shapes);
+
+     /*
+      * Mọi người sẽ hay dùng Static Dispatch hơn => đánh đổi compiler chậm - runtime nhanh
+      * Dynamic thì ngược lại => runtime chậm - compiler nhanh
+      */
 }
 
 pub struct Car {
@@ -162,7 +177,7 @@ fn check_speed<T: Vehicle>(vehicle: &T) {
     }
 }
 // check_speed <=> check_speed2 nhưng check_speed sẽ được sử dụng nhiều hơn
-fn check_speed2(vehicle: &impl Vehicle) {
+fn _check_speed2(vehicle: &impl Vehicle) {
     if vehicle.speed() > 80 {
         println!("{} is fast!", vehicle.speed());
     } else {
@@ -267,6 +282,13 @@ fn draw_static<T: Drawable>(shape: &T) {
     shape.draw();
 }
 //    <=>
-fn draw_static_cir(shape: &Circle) {
+fn _draw_static_cir(shape: &Circle) {
     shape.draw();
+}
+
+// *** Dynamic Dispatch
+fn draw_dynamic(shapes: &[&dyn Drawable]) {
+    for shape in shapes  {
+        shape.draw();
+    }
 }
